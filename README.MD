@@ -47,13 +47,13 @@ Check the UserController file, there you'll see you have to fulfill the followin
     }
 
     @RequestMapping(method = RequestMethod.GET, value="/jrt/api/v1.0/user")
-    public ResponseEntity<?> user(@PathVariable String userId) {
+    public ResponseEntity<?> get_user(@PathVariable String userId) {
         //TODO: Implement this
         return null;
     }
 
     @RequestMapping(method = RequestMethod.POST, value="/jrt/api/v1.0/user")
-    public ResponseEntity<?> user(@RequestBody User input) {
+    public ResponseEntity<?> add_user(@RequestBody User input) {
         /**
          * Should add a new user to the users collection, with validation
          * note: Always return the appropriate response for the action requested.
@@ -63,9 +63,19 @@ Check the UserController file, there you'll see you have to fulfill the followin
     }
 
     @RequestMapping(method = RequestMethod.PUT, value="/jrt/api/v1.0/user")
-    public ResponseEntity<?> user(@PathVariable String userId, @RequestBody User input) {
+    public ResponseEntity<?> update_user(@PathVariable String userId, @RequestBody User input) {
         /**
          * Update user specified with user ID and return updated user contents
+         * Note: Always return the appropriate response for the action requested.
+         */
+        //TODO: Implement this
+        return null;
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value="/jrt/api/v1.0/user")
+    public ResponseEntity<?> delete_user(@PathVariable String userId) {
+        /**
+         * Delete user specified with user ID and return updated user contents
          * Note: Always return the appropriate response for the action requested.
          */
         //TODO: Implement this
@@ -98,6 +108,8 @@ It is important that you return correct response codes.
 * We will test the app using Docker only, keep this in mind
 * Indicate what testing approach are you using...TDD, write code and test later, mocking, and tell us how to test your code
 * You already have a test folder for this with some boilerplate code
+* Keep in mind we expect some level of authentication, not everyone should be allowed to access endpoints, keep it simple
+  if you want to keep authenticated user in session cache that's ok
 * Using MongoDB is required to store and retrieve data.
 * For the distances endpoint, feel free to use any approach, there are several ways to do this
 * Add a method to delete a User too

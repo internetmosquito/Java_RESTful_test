@@ -21,13 +21,13 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value="/jrt/api/v1.0/user")
-    public ResponseEntity<?> user(@PathVariable String userId) {
+    public ResponseEntity<?> get_user(@PathVariable String userId) {
         //TODO: Implement this
         return null;
     }
 
     @RequestMapping(method = RequestMethod.POST, value="/jrt/api/v1.0/user")
-    public ResponseEntity<?> user(@RequestBody User input) {
+    public ResponseEntity<?> add_user(@RequestBody User input) {
         /**
          * Should add a new user to the users collection, with validation
          * note: Always return the appropriate response for the action requested.
@@ -37,9 +37,19 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value="/jrt/api/v1.0/user")
-    public ResponseEntity<?> user(@PathVariable String userId, @RequestBody User input) {
+    public ResponseEntity<?> update_user(@PathVariable String userId, @RequestBody User input) {
         /**
          * Update user specified with user ID and return updated user contents
+         * Note: Always return the appropriate response for the action requested.
+         */
+        //TODO: Implement this
+        return null;
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value="/jrt/api/v1.0/user")
+    public ResponseEntity<?> delete_user(@PathVariable String userId) {
+        /**
+         * Delete user specified with user ID and return updated user contents
          * Note: Always return the appropriate response for the action requested.
          */
         //TODO: Implement this
