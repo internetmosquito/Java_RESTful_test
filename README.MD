@@ -127,3 +127,25 @@ Publish your work in a GitHub repository. Feel free to modify this readme to giv
 If you need more than 1 day to do this, you might be overthinking, feel free to add improvement notes in your README file, show-off there,
 we prefer better quality code if it takes longer, but you must justify this.
 
+
+**Improvement Notes**
+* Currently the application does not have profiles (dev, test, prod) to be able to deploy/test the application accordingly.
+With the profile definitions will  be good to modify port of the application to use, log level, mongo utl, etc.
+* Also some load testing will be good maybe with jmeter to be able to see how much the application can scale or possible buttle necks.
+* Profiling the application can be also important now that it is running.
+* With the profiles in place, it would be handy to provide the specific profile as a property to the docker file and then to the spring boot application
+this will allow the app to behave differently.
+* Maybe some code conventions will be useful in big project to standarize things a bit, it brings benefits, obviously define pipelines to make sure code is always running, code reviews, etc.
+* Also maybe to have the infrastructure in place for the docker hub to store images and be able to pull them constantly.
+
+**Answers**
+* Answering the questions, I guess we will have a phone call, mut what I did was basically split the functionality in 3 main parts.
+1. Create all possible combinations of the users. This allows me to have in memory all different combinations of User -> User to I can calculate the distance
+2. Iterate the previous Set of pairs to calculate the distance and store the distance result
+3. Based on the distance now I can do all the simple maths for the average, min, max, etc.
+
+This approach allows me for example to use some sort of map reduce mechanism, where I can for instance, generate an independent micro service to calculare the distance (assuming this is the most CPU intensive calculation), then I can use the results from 1 and invoke that service, since that service is independent, I can scale that up as much as I can to parelalize things and split the load among multiple machines if needed, then collect all the results and reduce that to be able to do the average, min, max, etc.
+
+
+* Normally I dont focus on 100% Test coverage, not really useful to cover setters and getters for instance unless they do something specific.
+I rather focus on business logic coverage as high as possible. Saying that, I am totally flexible, if the company requires 100% code coverage I would not have any issue with that.
