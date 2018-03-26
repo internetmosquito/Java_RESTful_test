@@ -3,15 +3,35 @@ package user;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.*;
+import javax.validation.constraints.Size;
 
 @Document(collection = "users")
 public class User {
 
+    private static final int MAX_LENGTH_NAME = 30;
+    private static final int MIN_LENGTH_NAME = 2;
+    private static final int INTEGERS_IN_GEOPOSITION = 5;
+    private static final int DECIMALS_IN_GEOPOSITION = 20;
+
+
     @Id
     private int userId;
+
+    @NotNull
+    @NotBlank
+    @Size(min=MIN_LENGTH_NAME, max=MAX_LENGTH_NAME)
     private String firstName;
+
+    @NotNull
+    @NotBlank
+    @Size(min=MIN_LENGTH_NAME, max=MAX_LENGTH_NAME)
     private String lastName;
+
+    @Digits(integer=INTEGERS_IN_GEOPOSITION,fraction=DECIMALS_IN_GEOPOSITION)
     private Double latitude;
+
+    @Digits(integer=INTEGERS_IN_GEOPOSITION,fraction=DECIMALS_IN_GEOPOSITION)
     private Double longitude;
 
     public User(){

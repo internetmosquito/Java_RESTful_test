@@ -1,6 +1,7 @@
 package user;
 
 import com.google.common.collect.Sets;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GeodeticCalculator;
 import org.gavaghan.geodesy.GlobalPosition;
@@ -22,10 +23,10 @@ public class UserController extends WebSecurityConfigurerAdapter {
     private GeodeticCalculator geoCalc = new GeodeticCalculator();
     private Ellipsoid reference = Ellipsoid.WGS84;
 
-    @Override
-    protected void configure (HttpSecurity http) throws Exception {
-        http.csrf().disable();
-    }
+//    @Override
+//    protected void configure (HttpSecurity http) throws Exception {
+//        http.csrf().disable();
+//    }
 
     @Autowired
     UserRepository userRepository;
@@ -41,6 +42,10 @@ public class UserController extends WebSecurityConfigurerAdapter {
 
     @RequestMapping(method = RequestMethod.GET, value="/jrt/api/v1.0/user/{userId}")
     public ResponseEntity<?> get_user(@PathVariable String userId) {
+        if (!NumberUtils.isCreatable(userId)) {
+            return new ResponseEntity(new ApplicationError("Invalid user id: " + userId
+                    + "."), HttpStatus.BAD_REQUEST);
+        }
         User user = userRepository.findUserByUserId(Integer.valueOf(userId));
         if (null == user) {
             return new ResponseEntity(new ApplicationError("User with id " + userId
@@ -57,7 +62,7 @@ public class UserController extends WebSecurityConfigurerAdapter {
         }
         User user = userRepository.save(input);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(UriComponentsBuilder.fromPath("/jrt/api/v1.0/user/{id}").buildAndExpand(user.getUserId()).toUri());
+        headers.setLocation(UriComponentsBuilder.fromPath("/jrt/api/v1.0/user/{userId}").buildAndExpand(user.getUserId()).toUri());
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 

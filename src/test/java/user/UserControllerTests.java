@@ -43,6 +43,7 @@ import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -77,19 +78,35 @@ public class UserControllerTests {
     }
 
     @Test
+    public void getUserWithAnNonAuthorizedConsumer() throws Exception {
+        given(userRepository.findUserByUserId(1)).willReturn(null);
+        mockMvc.perform(get("/jrt/api/v1.0/users"))
+                .andExpect(status().is(HttpStatus.FOUND.value()));
+    }
+
+    @Test
     @WithMockUser(username = "user", password = "password", roles = "USER")
     public void getNonExistentUser() throws Exception {
         given(userRepository.findUserByUserId(1)).willReturn(null);
-        mockMvc.perform(get("/jrt/api/v1.0/user/{userId}", 1))
+        mockMvc.perform(get("/jrt/api/v1.0/user/{userId}", 1).with(csrf()))
                 .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
     }
+
+    @Test
+    @WithMockUser(username = "user", password = "password", roles = "USER")
+    public void getUserInvalidIdFormat() throws Exception {
+        given(userRepository.findUserByUserId(1)).willReturn(null);
+        mockMvc.perform(get("/jrt/api/v1.0/user/{userId}", "X").with(csrf()))
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
+    }
+
 
     @Test
     @WithMockUser(username = "user", password = "password", roles = "USER")
     public void getExistentUser() throws Exception {
         User user = new User(5, "Carlos", "Patino", 53.4239330, -7.9406900);
         given(userRepository.findUserByUserId(1)).willReturn(user);
-        mockMvc.perform(get("/jrt/api/v1.0/user/{userId}", 1))
+        mockMvc.perform(get("/jrt/api/v1.0/user/{userId}", 1).with(csrf()))
                 .andExpect(status().is(HttpStatus.OK.value()))
                 .andExpect(jsonPath("$.firstName", is(user.getFirstName())))
                 .andExpect(jsonPath("$.lastName", is(user.getLastName())))
@@ -104,7 +121,7 @@ public class UserControllerTests {
         final String userJson = jsonTester.write(user).getJson();
 
         given(userRepository.findUserByUserId(user.getUserId())).willReturn(user);
-        mockMvc.perform(post("/jrt/api/v1.0/user")
+        mockMvc.perform(post("/jrt/api/v1.0/user").with(csrf())
                 .contentType(APPLICATION_JSON)
                 .content(userJson))
                 .andExpect(status().is(HttpStatus.CONFLICT.value()));
@@ -118,10 +135,24 @@ public class UserControllerTests {
 
         given(userRepository.findUserByUserId(user.getUserId())).willReturn(null);
         given(userRepository.save(any(User.class))).willReturn(user);
-        mockMvc.perform(post("/jrt/api/v1.0/user")
+        mockMvc.perform(post("/jrt/api/v1.0/user").with(csrf())
                 .contentType(APPLICATION_JSON)
                 .content(userJson))
                 .andExpect(status().is(HttpStatus.CREATED.value()));
+    }
+
+    @Test
+    @WithMockUser(username = "user", password = "password", roles = "USER")
+    public void addUserInvalidDetails() throws Exception {
+        User user = new User(5, "Very long name that should fail since this is not a valid name otherwise this person will be in the guiness record", "Patino", 53.4239330, -7.9406900);
+        final String userJson = jsonTester.write(user).getJson();
+
+        given(userRepository.findUserByUserId(user.getUserId())).willReturn(null);
+        given(userRepository.save(any(User.class))).willReturn(user);
+        mockMvc.perform(post("/jrt/api/v1.0/user").with(csrf())
+                .contentType(APPLICATION_JSON)
+                .content(userJson))
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
     }
 
     @Test
@@ -133,7 +164,7 @@ public class UserControllerTests {
 
         given(userRepository.findUserByUserId(user.getUserId())).willReturn(user);
         given(userRepository.save(any(User.class))).willReturn(user);
-        mockMvc.perform(put("/jrt/api/v1.0/user/{userId}", user.getUserId())
+        mockMvc.perform(put("/jrt/api/v1.0/user/{userId}", user.getUserId()).with(csrf())
                 .contentType(APPLICATION_JSON)
                 .content(userJson))
                 .andExpect(status().is(HttpStatus.OK.value()))
@@ -149,7 +180,7 @@ public class UserControllerTests {
         User user = new User(5, "Carlos", "Patino", 53.4239330, -7.9406900);
         final String userJson = jsonTester.write(user).getJson();
         given(userRepository.findUserByUserId(user.getUserId())).willReturn(null);
-        mockMvc.perform(put("/jrt/api/v1.0/user/{userId}", user.getUserId())
+        mockMvc.perform(put("/jrt/api/v1.0/user/{userId}", user.getUserId()).with(csrf())
                 .contentType(APPLICATION_JSON).content(userJson))
                 .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
     }
@@ -163,7 +194,7 @@ public class UserControllerTests {
 
         given(userRepository.findAll()).willReturn((List) users);
 
-        mockMvc.perform(get("/jrt/api/v1.0/users")
+        mockMvc.perform(get("/jrt/api/v1.0/users").with(csrf())
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
@@ -179,7 +210,7 @@ public class UserControllerTests {
         Collection<User>users = new ArrayList<>();
         given(userRepository.findAll()).willReturn((List) users);
 
-        mockMvc.perform(get("/jrt/api/v1.0/users")
+        mockMvc.perform(get("/jrt/api/v1.0/users").with(csrf())
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().is(HttpStatus.NO_CONTENT.value()))
                 .andExpect(jsonPath("$", hasSize(0)));
@@ -192,7 +223,7 @@ public class UserControllerTests {
         final String userJson = jsonTester.write(user).getJson();
 
         given(userRepository.findUserByUserId(user.getUserId())).willReturn(user);
-        mockMvc.perform(delete("/jrt/api/v1.0/user/{userId}", user.getUserId())
+        mockMvc.perform(delete("/jrt/api/v1.0/user/{userId}", user.getUserId()).with(csrf())
                 .contentType(APPLICATION_JSON)
                 .content(userJson))
                 .andExpect(status().is(HttpStatus.OK.value()));
@@ -201,7 +232,7 @@ public class UserControllerTests {
     @Test
     @WithMockUser(username = "user", password = "password", roles = "USER")
     public void deleteAllUsers() throws Exception {
-        mockMvc.perform(delete("/jrt/api/v1.0/user")
+        mockMvc.perform(delete("/jrt/api/v1.0/user").with(csrf())
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().is(HttpStatus.OK.value()));
     }
@@ -213,7 +244,7 @@ public class UserControllerTests {
         final String userJson = jsonTester.write(user).getJson();
 
         given(userRepository.findUserByUserId(user.getUserId())).willReturn(null);
-        mockMvc.perform(delete("/jrt/api/v1.0/user/{userId}", user.getUserId())
+        mockMvc.perform(delete("/jrt/api/v1.0/user/{userId}", user.getUserId()).with(csrf())
                 .contentType(APPLICATION_JSON).content(userJson))
                 .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
     }
@@ -227,7 +258,7 @@ public class UserControllerTests {
         User cuatro = new User(4, "Jose", "", 53.422156, -7.942016 );
         List users = Arrays.asList(uno, dos, tres, cuatro);
         given(userRepository.findAll()).willReturn(users);
-        mockMvc.perform(get("/jrt/api/v1.0/distances"))
+        mockMvc.perform(get("/jrt/api/v1.0/distances").with(csrf()))
                 .andExpect(status().is(HttpStatus.OK.value()))
                 .andExpect(jsonPath("$.sum", closeTo(294, 2)))
                 .andExpect(jsonPath("$.min", closeTo(15, 2)))
