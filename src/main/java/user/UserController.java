@@ -108,7 +108,11 @@ public class UserController extends WebSecurityConfigurerAdapter {
 
     /**
      * Distance verified manually using https://www.movable-type.co.uk/scripts/latlong.html.
+<<<<<<< HEAD
      * Some profiling or performance tuning may be needed here based on the architecture of the computer,
+=======
+     * Some profiling or performance tunning may be needed here based on the architecture of the computer,
+>>>>>>> 8d35ebb9613a69602696efd1bca66d1e4113a667
      * number of cores, thread pool best suited for the use case we are running.
      */
     @RequestMapping(method = RequestMethod.GET, value="/jrt/api/v1.0/distances")
@@ -120,7 +124,7 @@ public class UserController extends WebSecurityConfigurerAdapter {
          *
          */
         // In a real case scenario you dont really map everything against everything, maybe the search can be narrowed per country,
-        // or per block and so on. Then we can optimize this call, instead of find all. 
+        // or per block and so on. Then we can optimize this call, instead of find all.
         Set<User> set = new HashSet<User>(userRepository.findAll());
 
         Map<String, Double> mapOfIdsAndDistances = Sets.combinations(set, 2).parallelStream().map(s -> {
