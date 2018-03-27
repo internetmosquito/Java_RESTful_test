@@ -132,7 +132,6 @@ public class UserControllerTests {
     public void addUserSuccessfully() throws Exception {
         User user = new User(5, "Carlos", "Patino", 53.4239330, -7.9406900);
         final String userJson = jsonTester.write(user).getJson();
-
         given(userRepository.findUserByUserId(user.getUserId())).willReturn(null);
         given(userRepository.save(any(User.class))).willReturn(user);
         mockMvc.perform(post("/jrt/api/v1.0/user").with(csrf())
