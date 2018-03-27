@@ -16,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -106,7 +107,9 @@ public class UserController extends WebSecurityConfigurerAdapter {
 
 
     /**
-     * Distance verified manually using https://www.movable-type.co.uk/scripts/latlong.html
+     * Distance verified manually using https://www.movable-type.co.uk/scripts/latlong.html.
+     * Some profiling or performance tunning may be needed here based on the architecture of the computer,
+     * number of cores, thread pool best suited for the use case we are running.
      */
     @RequestMapping(method = RequestMethod.GET, value="/jrt/api/v1.0/distances")
     public ResponseEntity<?> distances() {
@@ -116,12 +119,10 @@ public class UserController extends WebSecurityConfigurerAdapter {
          * This should be GET only.
          *
          */
-        double min=Double.MAX_VALUE, max=Double.MIN_VALUE, average= 0.0, std = 0.0;
-
-        Map<String, Double> distances = new HashMap<>();
         Set<User> set = new HashSet<User>(userRepository.findAll());
-        Sets.combinations(set, 2).forEach(p -> {
-            List<User> list = new ArrayList<User>(p);
+
+        Map<String, Double> mapOfIdsAndDistances = Sets.combinations(set, 2).parallelStream().map(s -> {
+            List<User> list = new ArrayList<User>(s);
             User userA = list.get(0);
             User userB = list.get(1);
             GlobalPosition pointA = new GlobalPosition(userA.getLatitude(), userA.getLongitude(), 0.0);
@@ -130,12 +131,11 @@ public class UserController extends WebSecurityConfigurerAdapter {
 
             StringBuilder sb = new StringBuilder();
             sb.append(userA.getUserId()).append("-").append(userB.getUserId());
-            distances.put(sb.toString(), distance);
-        });
 
-        DoubleStatistics stats = distances.values().stream().collect(
-                DoubleStatistics.collector());
+            return new PairOfIdsToDistance(sb.toString(), distance);
+        }).collect(Collectors.toMap(PairOfIdsToDistance::getFromToIds, PairOfIdsToDistance::getDistance));
 
+        DoubleStatistics stats = mapOfIdsAndDistances.values().stream().collect(DoubleStatistics.collector());
         return new ResponseEntity<DoubleStatistics>(stats, HttpStatus.OK);
     }
 
