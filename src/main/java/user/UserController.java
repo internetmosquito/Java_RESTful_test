@@ -108,11 +108,7 @@ public class UserController extends WebSecurityConfigurerAdapter {
 
     /**
      * Distance verified manually using https://www.movable-type.co.uk/scripts/latlong.html.
-<<<<<<< HEAD
      * Some profiling or performance tuning may be needed here based on the architecture of the computer,
-=======
-     * Some profiling or performance tunning may be needed here based on the architecture of the computer,
->>>>>>> 8d35ebb9613a69602696efd1bca66d1e4113a667
      * number of cores, thread pool best suited for the use case we are running.
      */
     @RequestMapping(method = RequestMethod.GET, value="/jrt/api/v1.0/distances")
