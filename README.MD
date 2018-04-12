@@ -1,6 +1,6 @@
 Welcome to the Java RESTful API test
 ====================================
-
+[![Build Status](https://travis-ci.org/carlospatinos/Java_RESTful_test.svg?branch=master)](https://travis-ci.org/carlospatinos/Java_RESTful_test)
 
 The objetive of this test if to help us evalute your skills with:
 
