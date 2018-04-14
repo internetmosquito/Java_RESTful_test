@@ -2,9 +2,13 @@ Welcome to the Java RESTful API test
 ====================================
 [![Build Status](https://travis-ci.org/carlospatinos/Java_RESTful_test.svg?branch=master)](https://travis-ci.org/carlospatinos/Java_RESTful_test)
 
-The objetive of this test if to help us evalute your skills with:
+[![Coverage Status](https://coveralls.io/repos/github/carlospatinos/Java_RESTful_test/badge.svg?branch=master)](https://coveralls.io/github/carlospatinos/Java_RESTful_test?branch=master)
 
-* Problem Solving
+**Why?**
+
+The objetive of this project is:
+
+* Use some Problem Solving addressing scaling up scenarios
 * Web Server API Design
 * Request-time data manipulation
 * Testing strategies
@@ -13,16 +17,14 @@ The objetive of this test if to help us evalute your skills with:
 **Instructions**
 
 * Fork the repo into a private repo.
-* You will need Gradle
+* Install Gradle
 * You can import the build.gradle file directly on your preferred IDE
 * Spring Boot should be used to complete the test, although, if you feel you want to use something different, feel free
 * Implement the required API endpoints
-* Let us know when you have finished.
 
 **Tasks**
 
-The idea here is for us to see how you design a minimalistic API. This API will be
-used to perform CRUD operations on a model called User.
+The idea here is for us to see how you design a minimalistic API. This API will be used to perform CRUD operations on a model called User.
 
 You're free to design this model as you want, but, at a minimum should have:
 

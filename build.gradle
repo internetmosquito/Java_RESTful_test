@@ -7,6 +7,12 @@ buildscript {
     }
 }
 
+plugins {
+    id 'jacoco'
+    id 'com.github.kt3k.coveralls' version '2.6.3'
+}
+
+apply plugin: 'jacoco'
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -18,8 +24,12 @@ bootJar {
     version =  '0.1.0'
 }
 
-
-
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
+}
 
 repositories {
     mavenCentral()
@@ -38,6 +48,8 @@ dependencies {
     compile("org.gavaghan:geodesy:1.1.3")
     compile("org.apache.commons:commons-lang3:3.7")
     compile("org.springframework.boot:spring-boot-starter-security")
+    compile("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
+    //testCompile("cz.jirutka.spring:embedmongo-spring:RELEASE")
     testCompile("org.springframework.security:spring-security-test")
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('com.jayway.jsonpath:json-path')
