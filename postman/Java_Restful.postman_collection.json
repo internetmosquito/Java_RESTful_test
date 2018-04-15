@@ -1,0 +1,358 @@
+{
+	"info": {
+		"_postman_id": "9c57c8d9-bb02-4d3e-a80b-c1414f7bd3c2",
+		"name": "Java_Restful",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "_csrf",
+						"value": "{{_csrf}}"
+					},
+					{
+						"key": "username",
+						"value": "user"
+					},
+					{
+						"key": "password",
+						"value": "password"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Find all users"
+			},
+			"response": []
+		},
+		{
+			"name": "find_users",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "_csrf",
+						"value": "{{_csrf}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/jrt/api/v1.0/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"jrt",
+						"api",
+						"v1.0",
+						"users"
+					]
+				},
+				"description": "Find all users"
+			},
+			"response": []
+		},
+		{
+			"name": "find_distances",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "origin",
+						"value": "localhost:8080"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/jrt/api/v1.0/distances",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"jrt",
+						"api",
+						"v1.0",
+						"distances"
+					]
+				},
+				"description": "Find all users"
+			},
+			"response": []
+		},
+		{
+			"name": "delete_users",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "origin",
+						"value": "http://localhost:8080",
+						"disabled": true
+					},
+					{
+						"key": "_csrf",
+						"value": "{{_csrf}}",
+						"disabled": true
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/jrt/api/v1.0/user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"jrt",
+						"api",
+						"v1.0",
+						"user"
+					]
+				},
+				"description": "Find all users"
+			},
+			"response": []
+		},
+		{
+			"name": "get_user",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/jrt/api/v1.0/user/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"jrt",
+						"api",
+						"v1.0",
+						"user",
+						"1"
+					]
+				},
+				"description": "Find all users"
+			},
+			"response": []
+		},
+		{
+			"name": "add_user",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "_csrf",
+						"value": "9b15a3f3-db83-4db6-99cf-d899fcad01b9",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userId\":1,\"firstName\":\"Luis\",\"lastName\":\"Patino\",\"latitude\":53.423933,\"longitude\":-7.94069}"
+				},
+				"url": {
+					"raw": "{{url}}/jrt/api/v1.0/user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"jrt",
+						"api",
+						"v1.0",
+						"user"
+					]
+				},
+				"description": "Find all users"
+			},
+			"response": []
+		},
+		{
+			"name": "update_user",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "_csrf",
+						"value": "9b15a3f3-db83-4db6-99cf-d899fcad01b9",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userId\":2,\"firstName\":\"Pedro\",\"lastName\":\"Patino\",\"latitude\":53.423933,\"longitude\":-7.94069}"
+				},
+				"url": {
+					"raw": "{{url}}/jrt/api/v1.0/user/2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"jrt",
+						"api",
+						"v1.0",
+						"user",
+						"2"
+					]
+				},
+				"description": "Find all users"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "721af903-acd1-4002-a019-99f69a4f4bb3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "9bbd3e27-8181-445e-b2ea-3f9f30380432",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "44c22c6f-06d8-4a6d-a9b9-c853c1ac52ed",
+			"key": "url",
+			"value": "http://localhost:8081",
+			"type": "string",
+			"description": ""
+		}
+	]
+}

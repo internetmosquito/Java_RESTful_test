@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -24,14 +25,13 @@ public class UserController extends WebSecurityConfigurerAdapter {
     private GeodeticCalculator geoCalc = new GeodeticCalculator();
     private Ellipsoid reference = Ellipsoid.WGS84;
 
-//    @Override
-//    protected void configure (HttpSecurity http) throws Exception {
-//        //http.csrf().disable();
-//        http.csrf().disable().authorizeRequests().anyRequest().
-//                authenticated().and().formLogin().loginPage("/login").
-//                permitAll().and().logout().deleteCookies("javarest").
-//                permitAll().and().rememberMe().tokenValiditySeconds(60);
-//    }
+    @Override
+    protected void configure (HttpSecurity http) throws Exception {
+        //http.csrf().disable();
+        http.authorizeRequests().anyRequest().fullyAuthenticated();
+        http.httpBasic();
+        http.csrf().disable();
+    }
 
     @Autowired
     UserRepository userRepository;

@@ -81,7 +81,7 @@ public class UserControllerTests {
     @Test
     public void getUserWithAnNonAuthorizedConsumer() throws Exception {
         mockMvc.perform(get("/jrt/api/v1.0/users"))
-                .andExpect(status().is(HttpStatus.FOUND.value()));
+                .andExpect(status().is(HttpStatus.UNAUTHORIZED.value()));
     }
 
     @Test
