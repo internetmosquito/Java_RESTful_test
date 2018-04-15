@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import user.UserController;
 
 import static java.util.Collections.singletonList;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
@@ -263,5 +262,17 @@ public class UserControllerTests {
                 .andExpect(jsonPath("$.min", closeTo(15, 2)))
                 .andExpect(jsonPath("$.average", closeTo(49, 2)))
                 .andExpect(jsonPath("$.max", closeTo(84, 2)));
+    }
+
+
+    @Test
+    @WithMockUser(username = "user", password = "password", roles = "USER")
+    public void getDistanceWithoutEnoughRecords() throws Exception {
+        User uno = new User(1, "Carlos", "", 53.421543, -7.942274);
+        List users = Arrays.asList(uno);
+        given(userRepository.findAll()).willReturn(users);
+        mockMvc.perform(get("/jrt/api/v1.0/distances").with(csrf()))
+                .andExpect(status().is(HttpStatus.NOT_FOUND.value()))
+                .andExpect(jsonPath("$.error", is("Not enough records to generate output")));
     }
 }
