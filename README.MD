@@ -140,6 +140,15 @@ this will allow the app to behave differently.
 * Maybe some code conventions will be useful in big project to standarize things a bit, it brings benefits, obviously define pipelines to make sure code is always running, code reviews, etc.
 * Also maybe to have the infrastructure in place for the docker hub to store images and be able to pull them constantly.
 
+
+**How to run**
+To run the code you have to execute.
+```sh
+docker-compose up
+```
+This will start mongodb and this service in docker, then you can start sending requests. Then you can use postman  or curl to call the end points (url with the format http://host:port). Default port is 8080
+
+
 **Answers**
 * Answering the questions, I guess we will have a phone call, mut what I did was basically split the functionality in 3 main parts.
 1. Create all possible combinations of the users. This allows me to have in memory all different combinations of User -> User to I can calculate the distance

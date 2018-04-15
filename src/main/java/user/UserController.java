@@ -8,8 +8,8 @@ import org.gavaghan.geodesy.GlobalPosition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -26,7 +26,11 @@ public class UserController extends WebSecurityConfigurerAdapter {
 
 //    @Override
 //    protected void configure (HttpSecurity http) throws Exception {
-//        http.csrf().disable();
+//        //http.csrf().disable();
+//        http.csrf().disable().authorizeRequests().anyRequest().
+//                authenticated().and().formLogin().loginPage("/login").
+//                permitAll().and().logout().deleteCookies("javarest").
+//                permitAll().and().rememberMe().tokenValiditySeconds(60);
 //    }
 
     @Autowired
@@ -55,7 +59,7 @@ public class UserController extends WebSecurityConfigurerAdapter {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value="/jrt/api/v1.0/user")
+    @RequestMapping(method = RequestMethod.POST, value="/jrt/api/v1.0/user", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> add_user(@Valid @RequestBody User input) {
         User userFound = userRepository.findUserByUserId(input.getUserId());
         if(userFound != null){
@@ -122,6 +126,9 @@ public class UserController extends WebSecurityConfigurerAdapter {
         // In a real case scenario you dont really map everything against everything, maybe the search can be narrowed per country,
         // or per block and so on. Then we can optimize this call, instead of find all.
         Set<User> set = new HashSet<User>(userRepository.findAll());
+        if(set == null || set.size() < 2) {
+            return new ResponseEntity(new ApplicationError("Not enough records to generate output"), HttpStatus.NOT_FOUND);
+        }
 
         Map<String, Double> mapOfIdsAndDistances = Sets.combinations(set, 2).parallelStream().map(s -> {
             List<User> list = new ArrayList<User>(s);

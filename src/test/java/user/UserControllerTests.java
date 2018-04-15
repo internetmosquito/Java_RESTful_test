@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import user.UserController;
 
 import static java.util.Collections.singletonList;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
@@ -79,7 +80,6 @@ public class UserControllerTests {
 
     @Test
     public void getUserWithAnNonAuthorizedConsumer() throws Exception {
-        given(userRepository.findUserByUserId(1)).willReturn(null);
         mockMvc.perform(get("/jrt/api/v1.0/users"))
                 .andExpect(status().is(HttpStatus.FOUND.value()));
     }
