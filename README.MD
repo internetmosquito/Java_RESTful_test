@@ -147,16 +147,11 @@ To run the code you have to execute.
 docker-compose up
 ```
 
-or to make sure you are buildoing all the time with latest changes: 
-
-To run the code you have to execute.
-```sh
-docker-compose down && docker-compose build --no-cache && docker-compose up
-```
-
 This will start mongodb and this service in docker, then you can start sending requests. Then you can use postman  or curl to call the end points (url with the format http://host:port). Default port is 8080
 
-You can use postman file provided in the /postman of the project to execute basic calls. Also there is a jemeter project provided which will create 10 users with different coordinates and then call distance 1000 times and then delete everything. 
+You can use postman file provided in the /postman of the project to execute basic calls. Also there is a jemeter project provided which will create 50 users with different coordinates and then call distance 1000 times and then delete everything. 
+
+it uses Basic Auth as mechanism for security. User (user) and password (password).
 
 **Answers**
 * Answering the questions, I guess we will have a phone call, mut what I did was basically split the functionality in 3 main parts.

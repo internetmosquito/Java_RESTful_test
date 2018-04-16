@@ -6,53 +6,6 @@
 	},
 	"item": [
 		{
-			"name": "login",
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "username",
-							"value": "user",
-							"type": "string"
-						},
-						{
-							"key": "password",
-							"value": "password",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "_csrf",
-						"value": "{{_csrf}}"
-					},
-					{
-						"key": "username",
-						"value": "user"
-					},
-					{
-						"key": "password",
-						"value": "password"
-					}
-				],
-				"body": {},
-				"url": {
-					"raw": "{{url}}/login",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"login"
-					]
-				},
-				"description": "Find all users"
-			},
-			"response": []
-		},
-		{
 			"name": "find_users",
 			"request": {
 				"auth": {
@@ -304,10 +257,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"userId\":2,\"firstName\":\"Pedro\",\"lastName\":\"Patino\",\"latitude\":53.423933,\"longitude\":-7.94069}"
+					"raw": "{\"userId\":1,\"firstName\":\"Otro\",\"lastName\":\"Patino\",\"latitude\":53.423933,\"longitude\":-7.94069}"
 				},
 				"url": {
-					"raw": "{{url}}/jrt/api/v1.0/user/2",
+					"raw": "{{url}}/jrt/api/v1.0/user/1",
 					"host": [
 						"{{url}}"
 					],
@@ -316,10 +269,190 @@
 						"api",
 						"v1.0",
 						"user",
-						"2"
+						"1"
 					]
 				},
 				"description": "Find all users"
+			},
+			"response": []
+		},
+		{
+			"name": "get_health",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/actuator/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actuator",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_beans",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/actuator/beans",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actuator",
+						"beans"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_logfile",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/actuator/logfile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actuator",
+						"logfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_env",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/actuator/env",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actuator",
+						"env"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_metrics",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/actuator/metrics",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actuator",
+						"metrics"
+					]
+				}
 			},
 			"response": []
 		}
@@ -348,7 +481,7 @@
 	],
 	"variable": [
 		{
-			"id": "44c22c6f-06d8-4a6d-a9b9-c853c1ac52ed",
+			"id": "7864d84b-867c-420a-bbfa-e9261bafdf8b",
 			"key": "url",
 			"value": "http://localhost:8081",
 			"type": "string",
