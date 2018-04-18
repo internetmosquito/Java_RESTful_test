@@ -1,9 +1,12 @@
 version: '3.1'
 services:
   sprinbboot_ws:
-    build: ./
+    image: . "carlospatinos/java_restful_test"
+    #build: .
+    container_name: sprinbboot_ws
     ports:
       - "8080:8080"
+      - "9010:9010"
     depends_on:
       - mongo_db
     links:
@@ -15,7 +18,45 @@ services:
     image: "mongo"
     container_name: mongo_db
     restart: always
-#    volumes:
-#      - ./data:/data/db
     ports:
       - "27017:27017"
+#    volumes:
+#      - ./data:/data/db
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${TAG}
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+    environment: ['http.host=0.0.0.0', 'transport.host=127.0.0.1']
+#    volumes:
+#      - ./config/elasticsearch.yml:/etc/elasticsearch/elasticsearch.yml
+    #'ELASTIC_PASSWORD=${ELASTIC_PASSWORD}'
+    #discovery.type: single-node
+  kibana:
+    image: docker.elastic.co/kibana/kibana:${TAG}
+    container_name: kibana
+    links:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_USERNAME=kibana
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+    ports:
+      - "5601:5601"
+    depends_on: ['elasticsearch']
+    volumes:
+      - ./config/kibana.yml:/usr/share/kibana/config/kibana.yml
+  httpbeat:
+    links:
+      - elasticsearch
+    image: evanhoucke/httpbeat
+    container_name: httpbeat
+    environment:
+      ES_HOST: elasticsearch
+      ES_PORT: 9200
+    depends_on: ['elasticsearch']
+    volumes:
+      - ./config/httpbeat.yml:/opt/beats/http.yml
+      #- ./config/httpbeat.yml:/etc/httpbeat/httpbeat.yml
+    #network_mode: bridge
+    restart: always
+#  networks: {stack: {}}
