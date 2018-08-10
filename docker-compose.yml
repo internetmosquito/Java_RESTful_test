@@ -1,0 +1,22 @@
+version: '3.1'
+services:
+  sprinbboot_ws:
+    image: "carlospatinos/java_restful_test"
+    ports:
+      - "8080:8080"
+      - "9010:9010"
+    depends_on:
+      - mongo_db
+    links:
+      - mongo_db
+    restart: always
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo_db/users
+  mongo_db:
+    image: "mongo"
+    container_name: mongo_db
+    restart: always
+#    volumes:
+#      - ./data:/data/db
+    ports:
+      - "27017:27017"

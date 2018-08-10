@@ -1,0 +1,27 @@
+############################## Httpbeat ########################################
+httpbeat:
+  hosts:
+    # Each - Host endpoints to call. Below are the host endpoint specific configurations
+    -
+      schedule: "@every 30s"
+      url: http://sprinbboot_ws:8080/actuator/health
+      method: get
+      headers:
+        Accept: application/json
+      output_format: json
+      json_dot_mode: replace
+    -
+      schedule: "@every 30s"
+      url: http://sprinbboot_ws:8080/actuator/metrics
+      method: get
+      headers:
+        Accept: application/json
+      output_format: json
+      json_dot_mode: replace
+#================================ General =====================================
+fields:
+  app_id: java-test
+#----------------------------- Logstash output --------------------------------
+output.elasticsearch:
+  hosts: ["elasticsearch:9200"]
+  index: "httpbeat-%{+yyyy.MM.dd}"
