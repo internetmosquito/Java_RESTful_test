@@ -164,3 +164,5 @@ This approach allows me for example to use some sort of map reduce mechanism, wh
 
 * Normally I dont focus on 100% Test coverage, not really useful to cover setters and getters for instance unless they do something specific.
 I rather focus on business logic coverage as high as possible. Saying that, I am totally flexible, if the company requires 100% code coverage I would not have any issue with that.
+
+END
