@@ -16,7 +16,9 @@ The objetive of this test if to help us evalute your skills with:
 * You will need Gradle
 * You can import the build.gradle file directly on your preferred IDE
 * Spring Boot should be used to complete the test, although, if you feel you want to use something different, feel free
-* Implement the required API endpoints
+* Implement the required API endpoints.
+* Implement a front-end to be able to create users and show them.
+* Bonus point: show a map where location of each user is shown.
 * Let us know when you have finished.
 
 **Tasks**
@@ -113,6 +115,7 @@ It is important that you return correct response codes.
 * Using MongoDB is required to store and retrieve data.
 * For the distances endpoint, feel free to use any approach, there are several ways to do this
 * Add a method to delete a User too
+* For the views, you can use either React, Vue or Angular, your call.
 
 **Questions**
 
